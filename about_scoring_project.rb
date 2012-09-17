@@ -28,9 +28,21 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 # More scoring examples are given in the tests below:
 #
 # Your goal is to write the score method.
-
+SINGLE_ROLL_MULTIPLIERS = [0, 100, 0, 0, 0, 50, 0]
+  
 def score(dice)
-  # You need to write this method
+  score = 0
+  (1..6).each do |number|
+    roll_count = dice.count { |dice| dice == number }
+
+    if roll_count >= 3
+      score += number == 1 ? 1000 : 100 * number
+      roll_count -= 3
+    end
+
+    score += roll_count * SINGLE_ROLL_MULTIPLIERS[number]
+  end
+  score
 end
 
 class AboutScoringProject < EdgeCase::Koan

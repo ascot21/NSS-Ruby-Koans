@@ -6,7 +6,7 @@ class AboutClasses < EdgeCase::Koan
 
   def test_instances_of_classes_can_be_created_with_new
     fido = Dog.new
-    assert_equal Dog, fido.class
+    assert_equal AboutClasses::Dog, fido.class
   end
 
   # ------------------------------------------------------------------
@@ -22,10 +22,8 @@ class AboutClasses < EdgeCase::Koan
     assert_equal [], fido.instance_variables
 
     fido.set_name("Fido")
-    assert_equal ["@name"], fido.instance_variables
+    assert_equal [:@name], fido.instance_variables
   end
-    # NOTE:  class.instance_variables is an array containing the variables themselves,
-    # *NOT* the values!
 
   def test_instance_variables_cannot_be_accessed_outside_the_class
     fido = Dog2.new
@@ -126,9 +124,6 @@ class AboutClasses < EdgeCase::Koan
     end
     # THINK ABOUT IT:
     # Why is this so?
-    #
-    # There is no default value set in "initialize",
-    # therefore it's an uninitalized variable with an undefined value
   end
 
   def test_different_objects_have_difference_instance_variables
@@ -152,7 +147,7 @@ class AboutClasses < EdgeCase::Koan
     end
 
     def to_s
-        "#{name}"
+      name
     end
 
     def inspect
@@ -166,9 +161,6 @@ class AboutClasses < EdgeCase::Koan
     fidos_self = fido.get_self
     assert_equal fido, fidos_self
   end
-  # NOTE:  It refers to the OBJECT, not the 'inspect' string *itself*.
-  # The inspect function is what is analyzed when the self is analyzed to test for
-  # equality.  However, in the above code, it's referring to the object.
 
   def test_to_s_provides_a_string_version_of_the_object
     fido = Dog7.new("Fido")
@@ -188,11 +180,11 @@ class AboutClasses < EdgeCase::Koan
   def test_all_objects_support_to_s_and_inspect
     array = [1,2,3]
 
-    assert_equal "123", array.to_s
+    assert_equal "[1, 2, 3]", array.to_s
     assert_equal "[1, 2, 3]", array.inspect
 
     assert_equal "STRING", "STRING".to_s
-    assert_equal "\"STRING\"", "STRING".inspect
+    assert_equal '"STRING"', "STRING".inspect
   end
 
 end
